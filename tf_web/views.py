@@ -3,7 +3,6 @@ from __future__ import division
 from __future__ import print_function
 from django.shortcuts import render, redirect
 from django.core.files.temp import NamedTemporaryFile
-from django.http import HttpResponseRedirect
 from .forms import UploadFileForm
 from PIL import Image
 
@@ -78,6 +77,7 @@ def upload_file(request):
             image_data.save(image_temp, image_data.format)
             dict_result = start_label(image_temp.name)
             return render(request, 'tf_test.html', {'prediction_results': dict_result,
+                                                    'image_src': image_temp.name,
                                                     'first_prediction_key': next(iter(dict_result)),
                                                     'first_prediction_value': next(iter(dict_result.values())),
                                                     'exclude_key': [next(iter(dict_result))]})

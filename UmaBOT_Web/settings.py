@@ -35,7 +35,6 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'tf_web.apps.TfWebConfig',
-    'UmaBOT.apps.UmabotConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

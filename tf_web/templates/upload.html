@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Simple Image Upload</title>
+    <title>Upload Leaf Image</title>
     <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -14,10 +14,13 @@
 
 <body>
     {% include 'navbar.html' %}
+    <div id="preloader" class="progress fixed-top">
+        <div class="indeterminate"></div>
+    </div>
     <div class="container margin-container">
         <div class="row">
             <div class="card-panel upload-image-container">
-                <h5>Image Upload</h5>
+                <h5>Upload Leaf Image</h5>
                 <div class="divider"></div>
                 <div class="form-group">
                     {% block content %}
@@ -33,7 +36,7 @@
                                 <input class="file-path validate" type="text" placeholder="Select an image file to upload">
                             </div>
                             <span class="helper-text">Select only one file for image upload</span>
-                            <button class="green darken-4 waves-effect waves-light btn-large upload-button" type="submit">
+                            <button class="green darken-4 waves-effect waves-light btn-large upload-button" type="submit" onclick="showLoader()">
                                 <i class="material-icons left">file_upload</i>Upload</button>
                         </div>
                     </form>
@@ -45,6 +48,7 @@
     </div>
     {% include 'footer.html' %}
     <script src="{% static 'js/materialize.min.js' %}"></script>
+    <script src="{% static 'js/loader.js' %}"></script>
 </body>
 
 </html>
