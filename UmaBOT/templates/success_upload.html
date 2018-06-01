@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Image Upload</title>
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="card-panel form-container">
+                <h5>Success</h5>
+                <div class="divider"></div>
+                <p>Image has been successfully uploaded and saved at images/</p>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/materialize.min.js' %}"></script>
+</body>
+
+</html>
