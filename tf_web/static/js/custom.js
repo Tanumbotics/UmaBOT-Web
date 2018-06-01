@@ -5,3 +5,5 @@ function showLoader() {
         document.getElementById('preloader').style.display = "block";
     }
 }
+
+document.getElementById('id_file').accept = 'image/*';
