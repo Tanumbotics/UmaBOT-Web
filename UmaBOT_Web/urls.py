@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from UmaBOT import views
+from tf_web import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('UmaBOT.urls')),
-    path('tf_web/', include('tf_web.urls')),
-    path('success/', views.success_page)
+    path('upload/', views.upload_file)
 ]

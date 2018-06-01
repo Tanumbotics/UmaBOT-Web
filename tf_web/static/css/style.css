@@ -2,6 +2,11 @@
     margin-top: 30px;
 }
 
+.upload-image-container {
+    width: 500px;
+    margin: 0 auto;
+}
+
 h1, h2, h3, h4, h5, h6 {
     padding: 0;
     margin: 10px 0 10px 0;
@@ -30,4 +35,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .transparent {
     background-color: transparent !important;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
 }

@@ -1,8 +1,13 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.core.files.temp import NamedTemporaryFile
+from django.http import HttpResponseRedirect
+from .forms import UploadFileForm
+from PIL import Image
 
+import io
 import numpy as np
 import tensorflow as tf
 import os
@@ -10,8 +15,6 @@ import os
 TF_GRAPH = "{base_path}/inception_model/output_graph.pb".format(
     base_path=os.path.abspath(os.path.dirname(__file__)))
 TF_LABELS = "{base_path}/inception_model/output_labels.txt".format(
-    base_path=os.path.abspath(os.path.dirname(__file__)))
-TF_IMAGE = "{base_path}/cat.jpg".format(
     base_path=os.path.abspath(os.path.dirname(__file__)))
 
 
@@ -65,8 +68,26 @@ def load_labels(label_file):
     return label
 
 
-def start_label(request):
-    file_name = TF_IMAGE
+def upload_file(request):
+    image_temp = NamedTemporaryFile()
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = request.FILES['file'].read()
+            image_data = Image.open(io.BytesIO(data))
+            image_data.save(image_temp, image_data.format)
+            dict_result = start_label(image_temp.name)
+            return render(request, 'tf_test.html', {'prediction_results': dict_result,
+                                                    'first_prediction_key': next(iter(dict_result)),
+                                                    'first_prediction_value': next(iter(dict_result.values())),
+                                                    'exclude_key': [next(iter(dict_result))]})
+    else:
+        form = UploadFileForm()
+    return render(request, 'upload.html', {'form': form})
+
+
+def start_label(image):
+    file_name = image
     model_file = TF_GRAPH
     label_file = TF_LABELS
     input_height = 299
@@ -103,8 +124,10 @@ def start_label(request):
     for i in top_k:
         dict_result[labels[i]] = str(np.round(results[i] * 100, 4)) + '%'
 
-    return render(request, 'tf_test.html', {'prediction_results': dict_result,
-                                            'image_file': TF_IMAGE,
-                                            'first_prediction_key': next(iter(dict_result)),
-                                            'first_prediction_value': next(iter(dict_result.values())),
-                                            'exclude_key': [next(iter(dict_result))]})
+    return dict_result
+
+    # return render(request, 'tf_test.html', {'prediction_results': dict_result,
+    #                                         'image_file': TF_IMAGE,
+    #                                         'first_prediction_key': next(iter(dict_result)),
+    #                                         'first_prediction_value': next(iter(dict_result.values())),
+    #                                         'exclude_key': [next(iter(dict_result))]})
