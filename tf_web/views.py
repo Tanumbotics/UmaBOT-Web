@@ -125,9 +125,3 @@ def start_label(image):
         dict_result[labels[i]] = str(np.round(results[i] * 100, 4)) + '%'
 
     return dict_result
-
-    # return render(request, 'tf_test.html', {'prediction_results': dict_result,
-    #                                         'image_file': TF_IMAGE,
-    #                                         'first_prediction_key': next(iter(dict_result)),
-    #                                         'first_prediction_value': next(iter(dict_result.values())),
-    #                                         'exclude_key': [next(iter(dict_result))]})
