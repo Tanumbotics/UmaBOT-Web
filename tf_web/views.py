@@ -10,6 +10,7 @@ import io
 import numpy as np
 import tensorflow as tf
 import os
+import base64
 
 TF_GRAPH = "{base_path}/inception_model/output_graph.pb".format(
     base_path=os.path.abspath(os.path.dirname(__file__)))
@@ -76,8 +77,12 @@ def upload_file(request):
             image_data = Image.open(io.BytesIO(data))
             image_data.save(image_temp, image_data.format)
             dict_result = start_label(image_temp.name)
+            with open(image_temp.name, "rb") as temp_img:
+                temp_img_string = base64.b64encode(temp_img.read())
+                temp_img_encode = "data:image/jpeg;base64," + \
+                    str(temp_img_string)[2:-1]
             return render(request, 'tf_test.html', {'prediction_results': dict_result,
-                                                    'image_src': image_temp.name,
+                                                    'image_data_uri': temp_img_encode,
                                                     'first_prediction_key': next(iter(dict_result)),
                                                     'first_prediction_value': next(iter(dict_result.values())),
                                                     'exclude_key': [next(iter(dict_result))]})
