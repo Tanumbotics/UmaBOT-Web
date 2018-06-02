@@ -7,3 +7,7 @@ function showLoader() {
 }
 
 document.getElementById('id_file').accept = 'image/*';
+
+$(document).ready(function () {
+    $('.modal').modal();
+});

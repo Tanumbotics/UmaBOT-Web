@@ -1,7 +1,9 @@
+from django.views.generic import RedirectView
 from django.urls import include, path
 from tf_web import views
 
 
 urlpatterns = [
-    path('', views.upload_file, name='upload')
+    path('upload/', views.upload_file, name='upload'),
+    path('', RedirectView.as_view(url='upload/'))
 ]
