@@ -1,6 +1,7 @@
 django
 gunicorn
 django-heroku
+PIL
 tensorflow
 tensorflow-hub
 whitenoise
