@@ -26,8 +26,7 @@ SECRET_KEY = '#8td&mvv*6cqmd9x+dj7^*uuu!qh0nmhu_bu35ikxbr1d-fs2r'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'marcx',
-    '0.0.0.0'
+    '*',
 ]
 
 
