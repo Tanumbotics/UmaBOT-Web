@@ -33,8 +33,8 @@
             <div class="col s8">
                 <ul class="card collection with-header">
                     <li class="collection-header">
-                        <h4>{{ first_prediction_key.title }}
-                            <span class="secondary-content confidence">{{ first_prediction_value }}</span>
+                        <h4 class="flow-text">{{ first_prediction_key.title }}
+                            <span class="secondary-content flow-text confidence">{{ first_prediction_value }}</span>
                         </h4>
                     </li>
                     {% for label, result in prediction_results.items %} {% if label not in exclude_key %}
