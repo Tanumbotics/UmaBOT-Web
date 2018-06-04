@@ -1,6 +1,6 @@
 from django.views.generic import RedirectView
 from django.urls import include, path
-from tf_web import views
+from tensorflow_web import views
 
 
 urlpatterns = [

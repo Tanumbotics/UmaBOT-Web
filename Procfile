@@ -1,1 +1,1 @@
-web: gunicorn UmaBOT_Web.wsgi --log-file -
+web: gunicorn umabot_main.wsgi --log-file -
