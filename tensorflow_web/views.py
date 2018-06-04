@@ -12,9 +12,9 @@ import tensorflow as tf
 import os
 import base64
 
-TF_GRAPH = "{base_path}/inception_model/output_graph.pb".format(
+TF_GRAPH = "{base_path}/graph/output_graph.pb".format(
     base_path=os.path.abspath(os.path.dirname(__file__)))
-TF_LABELS = "{base_path}/inception_model/output_labels.txt".format(
+TF_LABELS = "{base_path}/graph/output_labels.txt".format(
     base_path=os.path.abspath(os.path.dirname(__file__)))
 
 
@@ -81,11 +81,11 @@ def upload_file(request):
                 temp_img_string = base64.b64encode(temp_img.read())
                 temp_img_encode = "data:image/jpeg;base64," + \
                     str(temp_img_string)[2:-1]
-            return render(request, 'tf_test.html', {'prediction_results': dict_result,
-                                                    'image_data_uri': temp_img_encode,
-                                                    'first_prediction_key': next(iter(dict_result)),
-                                                    'first_prediction_value': next(iter(dict_result.values())),
-                                                    'exclude_key': [next(iter(dict_result))]})
+            return render(request, 'detect.html', {'prediction_results': dict_result,
+                                                   'image_data_uri': temp_img_encode,
+                                                   'first_prediction_key': next(iter(dict_result)),
+                                                   'first_prediction_value': next(iter(dict_result.values())),
+                                                   'exclude_key': [next(iter(dict_result))]})
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
