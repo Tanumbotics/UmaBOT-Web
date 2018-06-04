@@ -14,6 +14,7 @@ Make sure you have Python [installed properly](http://install.python-guide.org).
 $ git clone git@github.com:Tanumbotics/UmaBOT-Web.git
 $ cd UmaBOT-Web
 $ pip3 install -r requirements.txt
+$ python3 manage.py migrate
 $ python3 manage.py collectstatic
 $ python3 manage.py runserver
 ```
