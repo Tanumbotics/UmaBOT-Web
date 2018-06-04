@@ -81,11 +81,11 @@ def upload_file(request):
                 temp_img_string = base64.b64encode(temp_img.read())
                 temp_img_encode = "data:image/jpeg;base64," + \
                     str(temp_img_string)[2:-1]
-            return render(request, 'detect.html', {'prediction_results': dict_result,
-                                                   'image_data_uri': temp_img_encode,
-                                                   'first_prediction_key': next(iter(dict_result)),
-                                                   'first_prediction_value': next(iter(dict_result.values())),
-                                                   'exclude_key': [next(iter(dict_result))]})
+            return render(request, 'results.html', {'prediction_results': dict_result,
+                                                    'image_data_uri': temp_img_encode,
+                                                    'first_prediction_key': next(iter(dict_result)),
+                                                    'first_prediction_value': next(iter(dict_result.values())),
+                                                    'exclude_key': [next(iter(dict_result))]})
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
