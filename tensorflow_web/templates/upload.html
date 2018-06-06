@@ -14,35 +14,37 @@
 
 <body>
     {% include 'navbar.html' %}
-    <div id="preloader" class="progress fixed-top">
-        <div class="indeterminate"></div>
-    </div>
-    <div class="container margin-container">
-        <div class="row">
-            <div class="card-panel upload-image-container">
-                <h5>Upload Leaf Image</h5>
-                <div class="divider"></div>
-                <div class="form-group">
-                    {% block content %}
-                    <form method="post" enctype="multipart/form-data">
-                        <div class="file-field input-field">
-                            <div class="btn green darken-2">
-                                {% csrf_token %} {{ form.non_field_errors }} {{ form.file.errors }}
-                                <span>
-                                    <i class="material-icons left">add_a_photo</i>Select</span>
-                                {{ form.file }}
+    <div class="page-wrap">
+        <div id="preloader" class="progress fixed-top">
+            <div class="indeterminate"></div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="card-panel upload-image-container">
+                    <h5>Upload Leaf Image</h5>
+                    <div class="divider"></div>
+                    <div class="form-group">
+                        {% block content %}
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="file-field input-field">
+                                <div class="btn green darken-2">
+                                    {% csrf_token %} {{ form.non_field_errors }} {{ form.file.errors }}
+                                    <span>
+                                        <i class="material-icons left">add_a_photo</i>Select</span>
+                                    {{ form.file }}
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Select a leaf image file to upload">
+                                </div>
+                                <span class="helper-text">Select only one file for image upload</span>
+                                <button class="green darken-4 waves-effect waves-light btn-large upload-button" type="submit" onclick="showLoader()">
+                                    <i class="material-icons left">file_upload</i>Upload</button>
                             </div>
-                            <div class="file-path-wrapper">
-                                <input class="file-path validate" type="text" placeholder="Select a leaf image file to upload">
-                            </div>
-                            <span class="helper-text">Select only one file for image upload</span>
-                            <button class="green darken-4 waves-effect waves-light btn-large upload-button" type="submit" onclick="showLoader()">
-                                <i class="material-icons left">file_upload</i>Upload</button>
-                        </div>
-                    </form>
-                    {% endblock %}
-                </div>
+                        </form>
+                        {% endblock %}
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>

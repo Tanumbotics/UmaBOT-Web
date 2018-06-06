@@ -1,41 +1,23 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Prediction Results</title>
-    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-
-<body>
-    <div class="row">
-        <div class="col s4">
-            <img src="{{ image_data_uri }}">
-            <span class="card-title">{{ first_prediction_key.title }}</span>
-            <p>About {{ first_prediction_key.title }}</p>
-        </div>
-        <div class="col s8">
-            <ul class="collection with-header">
-                <li class="collection-header">
-                    <h4 class="flow-text">{{ first_prediction_key.title }}
-                        <span class="secondary-content flow-text confidence">{{ first_prediction_value }}</span>
-                    </h4>
-                </li>
-                {% for label, result in prediction_results.items %} {% if label not in exclude_key %}
-                <li class="collection-item">
-                    <div>{{ label.title }}
-                        <span class="secondary-content confidence">
-                            {{ result }}
-                        </span>
-                    </div>
-                </li>
-                {% endif %} {% endfor %}
-            </ul>
-        </div>
-    </div>
-</body>
+<h1 style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; margin-bottom: 10px; padding: 0;">Disease Detect Report</h1>
+<h3 style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; margin: 0; padding: 0;">Detection results of the provided leaf image</h3>
+<img src="{{ image_data_uri }}" alt="">
+<table style="border-collapse: collapse; width: 100%; margin-top: 10px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+    <thead>
+        <tr style="background-color: #dddddd; font-weight: bold;">
+            <td style="border: 1px solid #dddddd; text-align: center; padding: 8px;">Leaf Disease</td>
+            <td style="border: 1px solid #dddddd; text-align: center; padding: 8px;">Confidence</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border: 1px solid #dddddd; text-align: center; padding: 8px;">{{ first_prediction_key.title }}</td>
+            <td style="border: 1px solid #dddddd; text-align: center; padding: 8px;">{{ first_prediction_value }}</td>
+        </tr>
+        {% for label, result in prediction_results.items %} {% if label not in exclude_key %}
+        <tr>
+            <td style="border: 1px solid #dddddd; text-align: center; padding: 8px;">{{ label.title }}</td>
+            <td style="border: 1px solid #dddddd; text-align: center; padding: 8px;">{{ result }}</td>
+        </tr>
+        {% endif %} {% endfor %}
+    </tbody>
+</table>

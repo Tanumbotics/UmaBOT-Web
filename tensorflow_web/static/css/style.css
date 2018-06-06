@@ -1,10 +1,36 @@
-.margin-container {
+html, body {
+    height: 100% !important;
+}
+
+.page-wrap {
+    min-height: 100%;
+    margin-bottom: -50px; 
+}
+
+.margin {
     margin-top: 30px;
 }
 
+.page-wrap:after {
+    content: "";
+    display: block;
+}
+
+.site-footer, .page-wrap:after {
+	height: 50px; 
+}
+
+.site-footer {
+    padding: 1em;
+    background: orange;
+}
+
 .upload-image-container {
-    width: 500px;
-    margin: 0 auto;
+    width: 430px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -35,14 +61,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .transparent {
     background-color: transparent !important;
-}
-
-.footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    color: white;
 }
 
 .fixed-top {
