@@ -2,9 +2,12 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.core.files.storage import FileSystemStorage
 from django.core.files.temp import NamedTemporaryFile
 from .forms import UploadFileForm
 from PIL import Image
+from weasyprint import HTML
 
 import io
 import numpy as np
@@ -81,7 +84,8 @@ def upload_file(request):
                 temp_img_string = base64.b64encode(temp_img.read())
                 temp_img_encode = "data:image/jpeg;base64," + \
                     str(temp_img_string)[2:-1]
-            return render(request, 'results.html', {'prediction_results': dict_result,
+            return render(request, 'results.html', {'pdf_file': generate_pdf(dict_result, temp_img_encode),
+                                                    'prediction_results': dict_result,
                                                     'image_data_uri': temp_img_encode,
                                                     'first_prediction_key': next(iter(dict_result)),
                                                     'first_prediction_value': next(iter(dict_result.values())),
@@ -89,6 +93,26 @@ def upload_file(request):
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
+
+
+def generate_pdf(dict_data, image):
+    dict_result = dict_data
+    temp_img_encode = image
+    html_string = render_to_string('pdf.html', {'prediction_results': dict_result,
+                                                'image_data_uri': temp_img_encode,
+                                                'first_prediction_key': next(iter(dict_result)),
+                                                'first_prediction_value': next(iter(dict_result.values())),
+                                                'exclude_key': [next(iter(dict_result))]})
+    html = HTML(string=html_string)
+    html.write_pdf(target='/tmp/temp_file.pdf')
+
+    fs = FileSystemStorage('/tmp')
+    with fs.open('temp_file.pdf') as pdf:
+        encoded_pdf = base64.b64encode(pdf.read())
+        encoded_pdf_uri = "data:application/pdf;base64," + \
+            str(encoded_pdf)[2:-1]
+
+    return encoded_pdf_uri
 
 
 def start_label(image):

@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Prediction Results</title>
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div class="row">
+        <div class="col s4">
+            <img src="{{ image_data_uri }}">
+            <span class="card-title">{{ first_prediction_key.title }}</span>
+            <p>About {{ first_prediction_key.title }}</p>
+        </div>
+        <div class="col s8">
+            <ul class="collection with-header">
+                <li class="collection-header">
+                    <h4 class="flow-text">{{ first_prediction_key.title }}
+                        <span class="secondary-content flow-text confidence">{{ first_prediction_value }}</span>
+                    </h4>
+                </li>
+                {% for label, result in prediction_results.items %} {% if label not in exclude_key %}
+                <li class="collection-item">
+                    <div>{{ label.title }}
+                        <span class="secondary-content confidence">
+                            {{ result }}
+                        </span>
+                    </div>
+                </li>
+                {% endif %} {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
