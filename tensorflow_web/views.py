@@ -80,22 +80,30 @@ def upload_file(request):
             image_data = Image.open(io.BytesIO(data))
             image_data.save(image_temp, image_data.format)
             dict_result = start_label(image_temp.name)
-            with open(image_temp.name, "rb") as temp_img:
-                temp_img_string = base64.b64encode(temp_img.read())
-                temp_img_encode = "data:image/jpeg;base64," + \
-                    str(temp_img_string)[2:-1]
-            return render(request, 'results.html', {'pdf_file': generate_pdf(dict_result, temp_img_encode),
-                                                    'prediction_results': dict_result,
-                                                    'image_data_uri': temp_img_encode,
-                                                    'first_prediction_key': next(iter(dict_result)),
-                                                    'first_prediction_value': next(iter(dict_result.values())),
-                                                    'exclude_key': [next(iter(dict_result))]})
+        temp_img_encode = generate_image_uri(image_temp.name)
+        pdf_file = generate_pdf_uri(dict_result, temp_img_encode)
+        return render(request, 'results.html', {'pdf_file': pdf_file,
+                                                'prediction_results': dict_result,
+                                                'image_data_uri': temp_img_encode,
+                                                'first_prediction_key': next(iter(dict_result)),
+                                                'first_prediction_value': next(iter(dict_result.values())),
+                                                'exclude_key': [next(iter(dict_result))]})
     else:
         form = UploadFileForm()
+
     return render(request, 'upload.html', {'form': form})
 
 
-def generate_pdf(dict_data, image):
+def generate_image_uri(image):
+    with open(image, "rb") as temp_img:
+        temp_img_string = base64.b64encode(temp_img.read())
+        temp_img_encode = "data:image/jpeg;base64," + \
+                          str(temp_img_string)[2:-1]
+
+    return temp_img_encode
+
+
+def generate_pdf_uri(dict_data, image):
     dict_result = dict_data
     temp_img_encode = image
     html_string = render_to_string('pdf.html', {'prediction_results': dict_result,
@@ -110,7 +118,7 @@ def generate_pdf(dict_data, image):
     with fs.open('temp_file.pdf') as pdf:
         encoded_pdf = base64.b64encode(pdf.read())
         encoded_pdf_uri = "data:application/pdf;base64," + \
-            str(encoded_pdf)[2:-1]
+                          str(encoded_pdf)[2:-1]
 
     return encoded_pdf_uri
 
