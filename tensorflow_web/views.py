@@ -1,10 +1,12 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.core.files.storage import FileSystemStorage
 from django.core.files.temp import NamedTemporaryFile
+
 from .forms import UploadFileForm
 from PIL import Image
 from weasyprint import HTML
