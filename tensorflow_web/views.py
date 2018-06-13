@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from django.core.files.storage import FileSystemStorage
 from django.core.files.temp import NamedTemporaryFile
 
+from .disease_info import DiseaseInfo
 from .forms import UploadFileForm
 from PIL import Image
 from weasyprint import HTML
@@ -82,14 +83,25 @@ def upload_file(request):
             image_data = Image.open(io.BytesIO(data))
             image_data.save(image_temp, image_data.format)
             dict_result = start_label(image_temp.name)
+
         temp_img_encode = generate_image_uri(image_temp.name)
         pdf_file = generate_pdf_uri(dict_result, temp_img_encode)
-        return render(request, 'results.html', {'pdf_file': pdf_file,
-                                                'prediction_results': dict_result,
-                                                'image_data_uri': temp_img_encode,
-                                                'first_prediction_key': next(iter(dict_result)),
-                                                'first_prediction_value': next(iter(dict_result.values())),
-                                                'exclude_key': [next(iter(dict_result))]})
+        first_prediction_key = next(iter(dict_result))
+        first_prediction_value = next(iter(dict_result.values()))
+        get_disease_info = DiseaseInfo(first_prediction_key)
+        disease_info = get_disease_info.get_disease_info()
+        disease_info_url = get_disease_info.get_disease_info_url()
+
+        return render(request,
+                      'results.html',
+                      {'pdf_file': pdf_file,
+                       'disease_description': disease_info,
+                       'disease_info_url': disease_info_url,
+                       'prediction_results': dict_result,
+                       'image_data_uri': temp_img_encode,
+                       'first_prediction_key': first_prediction_key,
+                       'first_prediction_value': first_prediction_value,
+                       'exclude_key': [next(iter(dict_result))]})
     else:
         form = UploadFileForm()
 
@@ -108,11 +120,12 @@ def generate_image_uri(image):
 def generate_pdf_uri(dict_data, image):
     dict_result = dict_data
     temp_img_encode = image
-    html_string = render_to_string('pdf.html', {'prediction_results': dict_result,
-                                                'image_data_uri': temp_img_encode,
-                                                'first_prediction_key': next(iter(dict_result)),
-                                                'first_prediction_value': next(iter(dict_result.values())),
-                                                'exclude_key': [next(iter(dict_result))]})
+    html_string = render_to_string('pdf.html',
+                                   {'prediction_results': dict_result,
+                                    'image_data_uri': temp_img_encode,
+                                    'first_prediction_key': next(iter(dict_result)),
+                                    'first_prediction_value': next(iter(dict_result.values())),
+                                    'exclude_key': [next(iter(dict_result))]})
     html = HTML(string=html_string)
     html.write_pdf(target='/tmp/temp_file.pdf')
 
