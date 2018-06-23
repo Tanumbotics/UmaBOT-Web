@@ -1,7 +1,7 @@
 <h1 style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; margin-bottom: 10px; padding: 0;">Disease Detect Report</h1>
 <h3 style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; margin: 0; padding: 0;">Detection results of the provided leaf image</h3>
 <img src="{{ image_data_uri }}" alt="">
-<table style="border-collapse: collapse; width: 100%; margin-top: 10px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+<table style="border-collapse: collapse; width: 100%; margin-top: 10px; margin-bottom: 30px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
     <thead>
         <tr style="background-color: #dddddd; font-weight: bold;">
             <td style="border: 1px solid #dddddd; text-align: center; padding: 8px;">Leaf Disease</td>
@@ -21,3 +21,6 @@
         {% endif %} {% endfor %}
     </tbody>
 </table>
+<h3 style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; margin: 0; padding: 0;">About the Disease</h3><hr>
+<p style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; margin: 0; padding: 0;">{{ disease_description }}</p>
+<a href="{{ disease_info_url }}">Learn More</a>

@@ -101,7 +101,7 @@ def upload_file(request):
                        'image_data_uri': temp_img_encode,
                        'first_prediction_key': first_prediction_key,
                        'first_prediction_value': first_prediction_value,
-                       'exclude_key': [next(iter(dict_result))]})
+                       'exclude_key': [first_prediction_key]})
     else:
         form = UploadFileForm()
 
@@ -120,11 +120,18 @@ def generate_image_uri(image):
 def generate_pdf_uri(dict_data, image):
     dict_result = dict_data
     temp_img_encode = image
+    first_prediction_key = next(iter(dict_result))
+    first_prediction_value = next(iter(dict_result.values()))
+    disease_info = DiseaseInfo(first_prediction_key)
+    disease_description = disease_info.get_disease_info()
+    disease_info_url = disease_info.get_disease_info_url()
     html_string = render_to_string('pdf.html',
-                                   {'prediction_results': dict_result,
+                                   {'disease_description': disease_description,
+                                    'disease_info_url': disease_info_url,
+                                    'prediction_results': dict_result,
                                     'image_data_uri': temp_img_encode,
-                                    'first_prediction_key': next(iter(dict_result)),
-                                    'first_prediction_value': next(iter(dict_result.values())),
+                                    'first_prediction_key': first_prediction_key,
+                                    'first_prediction_value': first_prediction_value,
                                     'exclude_key': [next(iter(dict_result))]})
     html = HTML(string=html_string)
     html.write_pdf(target='/tmp/temp_file.pdf')
